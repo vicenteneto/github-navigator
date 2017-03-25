@@ -1,0 +1,91 @@
+CONTENTS OF THIS FILE
+---------------------
+
+ * Notes
+ * Bootstrap
+ * Requirements
+ * Dependencies
+ * Run
+
+
+NOTES
+-----
+
+The steps described in this tutorial are described for Linux systems.
+
+Note that all commands mentioned in this document are meant to be run from the directory that contains this document.
+
+
+BOOTSTRAP
+---------
+
+To facilitate the bootstrapping steps, the "bootstrap.sh" script can be used to install Python 2.7.13 (if necessary), create a virtual environment, and install the dependencies required to run the application. All of these steps will be described in the following items for those who also want do it manually.
+
+The script was tested on the Ubuntu distribution in versions 14.X and 16.X. Therefore, it should also be compatible with other unofficial distributions based on Ubuntu, such as Kurumin, Elementary OS, Linux Mint and others.
+
+To run it, just open a terminal and enter:
+	$ ./bootstrap.sh
+
+After a while, you'll have your entire environment set up and you'll be able to jump to the "Run" topic.
+
+
+REQUIREMENTS
+------------
+
+- Python 2.6 or 2.7
+	These two versions are compatible with the application, however, I will describe here how to install the latest version (2.7.13), based on this tutorial: http://mbless.de/blog/2016/01/09/upgrade-to-python-2711-on-ubuntu-1404-lts.html
+
+		Install the build dependencies:
+			$ sudo apt-get install -y autotools-dev blt-dev bzip2 dpkg-dev g++-multilib gcc-multilib libbluetooth-dev libbz2-dev libexpat1-dev libffi-dev libffi6 libffi6-dbg libgdbm-dev libgpm2 libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libtinfo-dev mime-support net-tools netbase python-crypto python-mox3 python-pil python-ply quilt tk-dev zlib1g-dev
+
+		Get Python sources and compile:
+			$ wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz
+		    $ tar xfz Python-2.7.13.tgz
+	    	$ cd Python-2.7.13/
+	    	$ ./configure --prefix /usr/local/lib/python2.7.13 --enable-ipv6
+	    	$ make
+	    	$ sudo make install
+	    	$ cd ..
+
+    	If desired, you can delete the files used for installation:
+	    	$ rm -rf Python-2.7.13
+	    	$ rm Python-2.7.13.tgz
+
+- Virtualenv
+	Virtualenv, in short words, is a tool to create isolated Python environments. And it can be easily installed in Linux environments by running:
+		$ sudo apt-get install python-virtualenv
+
+
+DEPENDENCIES
+------------
+
+Once you have virtualenv installed, just fire up a shell and create your own environment. I usually create a virtual environment folder named "pyEnv" within:
+
+	$ virtualenv --python=/usr/local/lib/python2.7.13/bin/python pyEnv
+	New python executable in pyEnv/bin/python
+	Installing setuptools, pip............done.
+
+Now, activate the "pyEnv" environment:
+	$ . pyEnv/bin/activate
+
+You should now be using your virtualenv (notice how the prompt of your shell has changed to show the active environment).
+
+And install the dependencies:
+	$ pip install -r dependencies
+
+The following dependencies were used:
+	- Flask: a micro webdevelopment framework for Python.
+	- Requests: Used to perform http requests, in this case, to the GitHub API.
+
+
+RUN
+---
+
+To run the application, you only have to activate the "pyEnv" environment, if it is not already active. On Linux, do the following:
+	$ . pyEnv/bin/activate
+
+Now, let’s move on and run the application script:
+	$ python application.py
+
+The application will be running on port 9876, so open your preferred browser and type:
+	http://localhost:9876/navigator?search_term=SEARCH
