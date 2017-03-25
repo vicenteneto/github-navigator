@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GitHub Navigator</title>
+</head>
+<body>
+<h1>{{search_term}}</h1>
+
+{% for repository in repositories %}
+    <h2>{{loop.index}}. {{repository['name']}}</h2>
+    <h3> Created {{repository['created_at'].strftime('%Y-%m-%d %H:%M:%S')}}</h3>
+    <a href="{{repository['owner']['html_url']}}">
+        <img src="{{repository['owner']['avatar_url']}}" alt="avatar" height="42" width="42"/>
+    </a>
+    {{repository['owner']['login']}}
+    <h3>LastCommit</h3>
+    {% if 'last_commit' in repository %}
+        <p><b>SHA:</b> {{repository['last_commit']['sha']}}</p>
+        <p><b>Message:</b> {{repository['last_commit']['commit']['message']}}</p>
+        <p><b>Author:</b> {{repository['last_commit']['commit']['author']['name']}}</p>
+    {% else %}
+        <p>This repository is empty.</p>
+    {% endif %}
+    <hr/>
+{% endfor %}
+</body>
+</html>
